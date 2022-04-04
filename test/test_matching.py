@@ -13,7 +13,7 @@ from noiseplanet import matcher
 def test_match():
     print('\nTest match(graph, track, method)')
     center_point = (45.75793143,  4.83549635)
-    graph = ox.graph_from_point(center_point, distance=100)
+    graph = ox.graph_from_point(center_point, dist=100)
     track = np.array( [[45.75793143,  4.83549635],
                        [45.75793143,  4.83549635],
                        [45.75791593,  4.83548718],
