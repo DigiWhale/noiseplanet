@@ -6,7 +6,7 @@ Created on Sun Jan 19 21:05:06 2020
 """
 
 import json
-from pandas.io.json import json_normalize
+from pandas import json_normalize
 import pandas as pd
 import numpy as np
 
