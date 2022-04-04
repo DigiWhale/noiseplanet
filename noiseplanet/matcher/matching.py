@@ -13,8 +13,10 @@ Match a track/GeoJson to the Open Street Map network.
 
 # Classic Library
 import os
+import traceback
 import numpy as np
 import pandas as pd
+import traceback
 
 # Useful package
 from noiseplanet import io, utils
@@ -93,40 +95,43 @@ def match_geojson(geojson, method="hmm", log=True):
      
     if log:
         print('Length : {0}'.format(len(df)))
+    try:
     
-    coord = np.array([*df['coordinates']])
-    X = coord[:, 0]
-    Y = coord[:, 1]
-    track = np.column_stack((Y, X))
-    graph = model.graph_from_track(track, network='all')
-    track_corr, route_corr, edgeid, stats = match(graph, track, method=method)
-    stats = pd.DataFrame(stats)
-    stats = stats.set_index(df.index.values)
-    # stats['proj_accuracy'] = df['accuracy'].values / stats['proj_length']
-    df_corr = pd.concat([df, stats], axis=1, join='inner')
-    if log:
-        print('Stats {0}'.format(method))
-        print(stats.describe().round(3))
-            
-    coord[:, 0] = track_corr[:, 1]
-    coord[:, 1] = track_corr[:, 0]
-    df_corr['coordinates'] = coord        
-    proj_init="epsg:4326"
-    proj_out="epsg:3857"
-    origin = (0, 0)
-    side_length = 15     
-    Q, R = utils.hexgrid.nearest_hexagons(Y, X, side_length=side_length, origin=origin, 
-                        proj_init=proj_init, proj_out=proj_out)
-    
-    df_corr['hex_id'] = list(zip(Q, R))
-    df_corr['edge_id'] = list(zip(edgeid[:,0], edgeid[:, 1]))
-    graph_undirected = graph.to_undirected()
-    df_corr['osmid'] = [graph_undirected.edges[(edgeid[0], edgeid[1], 0)]['osmid'] for edgeid in df_corr['edge_id'].values]
-    
-    geometry = 'Point'
-    coordinates = 'coordinates'
-    properties = [key for key in df.columns.values[2:]]
-    geojson = utils.df_to_geojson(df_corr, geometry, coordinates, properties)
+        coord = np.array([*df['coordinates']])
+        X = coord[:, 0]
+        Y = coord[:, 1]
+        track = np.column_stack((Y, X))
+        graph = model.graph_from_track(track, network='all')
+        track_corr, route_corr, edgeid, stats = match(graph, track, method=method)
+        stats = pd.DataFrame(stats)
+        stats = stats.set_index(df.index.values)
+        # stats['proj_accuracy'] = df['accuracy'].values / stats['proj_length']
+        df_corr = pd.concat([df, stats], axis=1, join='inner')
+        if log:
+            print('Stats {0}'.format(method))
+            print(stats.describe().round(3))
+                
+        coord[:, 0] = track_corr[:, 1]
+        coord[:, 1] = track_corr[:, 0]
+        df_corr['coordinates'] = coord        
+        proj_init="epsg:4326"
+        proj_out="epsg:3857"
+        origin = (0, 0)
+        side_length = 15     
+        Q, R = utils.hexgrid.nearest_hexagons(Y, X, side_length=side_length, origin=origin, 
+                            proj_init=proj_init, proj_out=proj_out)
+        
+        df_corr['hex_id'] = list(zip(Q, R))
+        df_corr['edge_id'] = list(zip(edgeid[:,0], edgeid[:, 1]))
+        graph_undirected = graph.to_undirected()
+        df_corr['osmid'] = [graph_undirected.edges[(edgeid[0], edgeid[1], 0)]['osmid'] for edgeid in df_corr['edge_id'].values]
+        
+        geometry = 'Point'
+        coordinates = 'coordinates'
+        properties = [key for key in df.columns.values[2:]]
+        geojson = utils.df_to_geojson(df_corr, geometry, coordinates, properties)
+    except:
+        print(traceback.format_exc())
     
     return geojson
 
