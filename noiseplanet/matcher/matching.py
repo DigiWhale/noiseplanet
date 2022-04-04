@@ -132,6 +132,7 @@ def match_geojson(geojson, method="hmm", log=True):
 
 
 def match_from_geojson(*file, out_dirname='.', method="hmm", log=True):
+    print(*file, "files")
     """
     Match a GeoJson track on the Open Street Map network.
 
