@@ -158,6 +158,7 @@ def match_from_geojson(*file, out_dirname='.', method="hmm", log=True):
     """
     
     for f in file:
+        print(f, file)
         name = f.split(os.sep)[-1].split(".")[0]    
         # Open the geojson
         geojson = io.open_geojson(f)
