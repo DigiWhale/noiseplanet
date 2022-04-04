@@ -16,10 +16,13 @@ import os
 import json
 import numpy as np
 import zipfile
+import pathlib
 
 
 
 def open_geojson(file_path):
+    print(pathlib.Path(__file__).parent.resolve())
+    print(pathlib.Path().resolve())
     """
     Open a GeoJson file in a dictionary format.
 
