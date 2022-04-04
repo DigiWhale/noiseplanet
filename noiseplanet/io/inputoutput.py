@@ -21,6 +21,7 @@ import pathlib
 
 
 def open_geojson(file_path):
+    print("\nOpening GeoJson file : {0}".format(file_path))
     print(pathlib.Path(__file__).parent.resolve())
     print(pathlib.Path().resolve())
     """
