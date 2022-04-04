@@ -86,7 +86,7 @@ if __name__ == "__main__":
     test_match()
     
     # Test the match_from_geojson function
-    dirname = "../../nc_data/test/data/track"
+    dirname = "../test/data/track"
     out_dirname = '.'
     test_match_from_geojsons(dirname, out_dirname=out_dirname, method="nearest", log=True)
     test_match_from_geojsons(dirname, out_dirname=out_dirname, method="hmm", log=True)
