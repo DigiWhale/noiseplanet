@@ -84,7 +84,7 @@ def match_nearest_edge(graph, track):
         >>> track_corr, route_corr, edgeid = match_nearest(graph, track)
     """
     # id of the nearest edges
-    edgeid = ox.distance.nearest_edges(graph, track[:,1], track[:,0],  method='balltree', dist=.000001)
+    edgeid = ox.distance.nearest_edges(graph, track[:,1], track[:,0], dist=.000001)
     lat1, lat2, lon1, lon2 = [], [], [], []
     for edge in edgeid:
         lon1.append(graph.nodes[edge[0]]['x'])
