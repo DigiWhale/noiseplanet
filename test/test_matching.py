@@ -76,7 +76,7 @@ def test_match_from_geojson(dirname, out_dirname=".", method="nearest", log=True
 
 def test_match_from_geojsons(dirname, out_dirname=".", method="nearest", log=True):
     print('\nTest match_from_geojsons(dirname, out_dirname=".", method="nearest", log=True)')
-    matcher.match_from_geojson(dirname, out_dirname=out_dirname, method=method, log=log)
+    matcher.match_from_dir(dirname, out_dirname=out_dirname, method=method, log=log)
 
 
 
