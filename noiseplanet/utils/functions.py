@@ -47,7 +47,7 @@ def geojson_to_df(geojson, normalize_header=False):
             ...
     """
     
-    df = pd.io.json.json_normalize(geojson["features"])
+    df = pd.json_normalize(geojson["features"])
     if normalize_header:
         del df[df.columns[0]]
         columns = [key.lower().split('.')[-1] for key in df.columns.values]

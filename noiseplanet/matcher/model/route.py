@@ -115,7 +115,7 @@ def route_from_track(graph, track, edgeid=None):
     
     # Find closest edges for each points
     if edgeid is None:
-        edgeid = np.array(ox.get_nearest_edges(graph, track[:, 1], track[:, 0],  method="balltree", dist=0.00001))
+        edgeid = np.array(ox.distance.nearest_edges(graph, track[:, 1], track[:, 0],  method="balltree", dist=0.00001))
     edgeid = np.array(edgeid)
     
     # Deep copy of the graph, so the original is not modified
